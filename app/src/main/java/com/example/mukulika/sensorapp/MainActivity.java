@@ -227,59 +227,60 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        if(mAcc != null) {
-            mSensorManager.registerListener(this,mAcc,SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else {
+        if (mAcc != null) {
+            mSensorManager.registerListener(this, mAcc, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
             Toast.makeText(this, "Error: No Accelerometer.", Toast.LENGTH_LONG).show();
         }
-        if(lAcc != null) {
-            mSensorManager.registerListener(this,lAcc,SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else {
+        if (lAcc != null) {
+            mSensorManager.registerListener(this, lAcc, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
             Toast.makeText(this, "Error: No Linear Acceleration.", Toast.LENGTH_LONG).show();
         }
-        if(tmp != null) {
-            mSensorManager.registerListener(this,tmp,SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else {
+        if (tmp != null) {
+            mSensorManager.registerListener(this, tmp, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
             Toast.makeText(this, "Error: No temperature sensor.", Toast.LENGTH_LONG).show();
         }
-        if(light != null) {
-            mSensorManager.registerListener(this,light,SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else {
+        if (light != null) {
+            mSensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
             Toast.makeText(this, "Error: No light sensor.", Toast.LENGTH_LONG).show();
         }
-        if(proximity != null) {
-            mSensorManager.registerListener(this,proximity,SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else {
+        if (proximity != null) {
+            mSensorManager.registerListener(this, proximity, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
             Toast.makeText(this, "Error: No proximity sensor.", Toast.LENGTH_LONG).show();
         }
-        if(magneticField != null) {
-            mSensorManager.registerListener(this,magneticField,SensorManager.SENSOR_DELAY_NORMAL);
-        }
-        else {
+        if (magneticField != null) {
+            mSensorManager.registerListener(this, magneticField, SensorManager.SENSOR_DELAY_NORMAL);
+        } else {
             Toast.makeText(this, "Error: No Magnetic Field sensor.", Toast.LENGTH_LONG).show();
         }
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, this);
 
-        }
-        else {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 11);
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12);
-        }
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 11);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12);
+
         /*if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12);
         }*/
-        //checkPermission({Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, [10,11]);
+            //checkPermission({Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION}, [10,11]);
 
 
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 11);
+        }
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 12);
+        }
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, this);
     }
 
     // Function to check and request permission.
@@ -305,46 +306,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onPause();
         mSensorManager.unregisterListener(this);
     }
-        @Override
-        public void onRequestPermissionsResult(int requestCode,
-        @NonNull String[] permissions,
-        @NonNull int[] grantResults)
-        {
-            super
-                    .onRequestPermissionsResult(requestCode,
-                            permissions,
-                            grantResults);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
 
-            if (requestCode == 11) {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(MainActivity.this,
-                            "Coarse Location Permission Granted",
-                            Toast.LENGTH_SHORT)
-                            .show();
+        if (requestCode == 11) {
+                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(MainActivity.this,
+                                "Coarse Location Permission Granted",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                    else {
+                        //Toast.makeText(MainActivity.this, "Coarse Location Permission Denied", Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else {
-                    Toast.makeText(MainActivity.this,
-                            "Coarse Location Permission Denied",
-                            Toast.LENGTH_SHORT)
-                            .show();
+        else if (requestCode == 12) {
+                    if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(MainActivity.this,
+                                "Fine Location Permission Granted",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                    else {
+                        //Toast.makeText(MainActivity.this,"Fine Location Permission Denied",Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-            else if (requestCode == 12) {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(MainActivity.this,
-                            "Fine Location Permission Granted",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                }
-                else {
-                    Toast.makeText(MainActivity.this,
-                            "Fine Location Permission Denied",
-                            Toast.LENGTH_SHORT)
-                            .show();
-                }
-            }
         }
 
     public void button1(View v){
