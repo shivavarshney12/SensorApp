@@ -1,0 +1,15 @@
+package com.example.mukulika.sensorapp;
+
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
+
+import java.util.List;
+
+@Dao
+public interface LightDao {
+    @Query("SELECT * FROM light")
+    List<Light> getAll();
+    @Insert
+    void insertAll(Light l);
+}
